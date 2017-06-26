@@ -11,4 +11,5 @@ public interface UserService extends Remote{
         
         public boolean register(String username,String password)throws RemoteException;
         
+        public String getUser() throws RemoteException;
 }

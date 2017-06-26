@@ -9,6 +9,10 @@ package ui;
  *
  * @author py
  */
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.rmi.RemoteException;
 import javafx.application.Application;
 import javafx.scene.control.Button;
@@ -50,10 +54,13 @@ public class Register extends Application{
          pane.add(btDone, 1, 5);
          pane.add(message, 1, 4);
         
-        final   String userNameStr = userTextField.getText();
-        final  String password = pf.getText();
-            
          btDone.setOnAction(e ->{
+             
+          final String userNameStr = userTextField.getText();
+          String password = pf.getText();
+            System.out.println(1);
+            System.out.println(userNameStr);
+            System.out.println(password);
              if(!pf.getText().equals(pf2.getText())){
                   message.setText("Your password is different!");
                   message.setTextFill(Color.rgb(210, 39, 30));    
@@ -63,9 +70,11 @@ public class Register extends Application{
                 message.setTextFill(Color.rgb(21, 117, 84));
                  try {
                      if(RemoteHelper.getInstance().getUserService().register(userNameStr, password)){
+                       
                          primaryStage.close();
                          MainFrame mainFrame = new MainFrame();
                          mainFrame.start(primaryStage);
+                             
                      }
                  } catch (RemoteException ex) {
                      ex.printStackTrace();
@@ -80,6 +89,8 @@ public class Register extends Application{
     }
   public static void main(String[] args){
       Application.launch(args);
+     
+      
   }
     
     

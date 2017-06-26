@@ -50,7 +50,7 @@ public class Open extends Application {
                 .children(buttonLoad)
                 .build();
         root.getChildren().add(vBox);
-        primaryStage.setScene(new Scene(root, 500, 400));
+        primaryStage.setScene(new Scene(root, 80, 50));
         primaryStage.show();
     }
 

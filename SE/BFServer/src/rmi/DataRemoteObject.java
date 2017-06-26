@@ -70,5 +70,8 @@ public class DataRemoteObject extends UnicastRemoteObject implements IOService,
 	public boolean register(String username,String password)throws RemoteException{
 		return userService.register(username, password);
 	}
+        public String getUser() throws RemoteException{
+            return userService.getUser();
+        }
 
 }

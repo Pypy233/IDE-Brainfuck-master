@@ -29,9 +29,9 @@ import javafx.scene.text.Text;
 import rmi.RemoteHelper;
 
 public class Login extends Application{
-    private final boolean canLogin = false;
      PasswordField pf = new PasswordField();
        TextField userTextField = new TextField();  
+       private String userNameStr = "";
     @Override
     public void start(Stage primaryStage){
         GridPane pane = new GridPane();
@@ -59,12 +59,15 @@ public class Login extends Application{
       Button btDone = new Button("Done");
       pane.add(btDone,3,2);
       
-      String userNameStr = userTextField.getText();
-      String password = pf.getText();
+     
       
       btDone.setOnAction(e ->{
+          final String  userNameStr = userTextField.getText();
+           String password = pf.getText();
+           System.out.print(userNameStr);
           try{
              if(RemoteHelper.getInstance().getUserService().login(userNameStr, password)){
+                  
                  primaryStage.close();
                  MainFrame mainFrame = new MainFrame();
                  mainFrame.start(primaryStage);
@@ -72,9 +75,7 @@ public class Login extends Application{
                  primaryStage.close();
                  LoginFailure logFailure = new LoginFailure();
                  logFailure.start(primaryStage);
-                 
              }
-                
               }catch(RemoteException ex){
                   ex.printStackTrace();
               }
@@ -87,8 +88,6 @@ public class Login extends Application{
           re.start(primaryStage);
       });
       pane.add(btRegister,1,4);
-      
-        
         primaryStage.setTitle("Logon Screen");
         primaryStage.setScene(scene);
         primaryStage.show();
@@ -98,7 +97,7 @@ public class Login extends Application{
         Application.launch(args);
     }
    public String getUser(){
-     return userTextField.getText();       
+     return userNameStr;      
    }
    public String getPassword(){
        return pf.getText();

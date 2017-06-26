@@ -27,7 +27,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.control.RadioMenuItem;
 import rmi.RemoteHelper;
@@ -43,7 +42,7 @@ public class MainFrame extends Application{
       TextArea inputText = new TextArea();
       TextArea resultArea = new TextArea();
        RadioMenuItem versionItem = new RadioMenuItem();
-     
+     String userId = "";
 
     /*public static void init(String[] args){
         Application.launch(args);
@@ -57,7 +56,6 @@ public class MainFrame extends Application{
    
     public void start(Stage primaryStage){
       
-
       
           
         MenuBar menuBar = new MenuBar();
@@ -153,7 +151,7 @@ public class MainFrame extends Application{
      userMenuItem.setOnAction(e ->{
          Login lo = new Login();
          lo.start(primaryStage);
-         
+         userId = lo.getUser();
      });
      
       
@@ -211,6 +209,7 @@ public class MainFrame extends Application{
     class SavePane extends Application{
         @Override
         public void start(Stage primaryStage){
+          
            BorderPane savePane = new BorderPane();
            Label label = new Label("File:");
            savePane.setTop(label);
@@ -221,12 +220,14 @@ public class MainFrame extends Application{
           String content = text.getText();
           Login lo = new Login();
           String user = lo.getUser();
-          String password = lo.getPassword();
+          
           String fileName = fileNameText.getText();
           SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
           String date =   df.format(new Date());
             try {
+             //   user = RemoteHelper.getInstance().getUserService().getUser();
                 RemoteHelper.getInstance().getIOService().writeFile(content,user, fileName,date);
+                System.out.print("UserId    ?"+userId);
                 BorderPane pane = new BorderPane();
                 Label saveLabel = new Label("File has been saved");
                 Button btOK = new Button("OK!");
@@ -244,7 +245,7 @@ public class MainFrame extends Application{
                 ex.printStackTrace();
             }
            });
-       Scene scene = new Scene(savePane,200,130);
+             Scene scene = new Scene(savePane,200,130);
            primaryStage.setScene(scene);
            primaryStage.show();
            
