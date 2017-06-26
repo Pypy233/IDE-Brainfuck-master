@@ -9,12 +9,8 @@ package ui;
  *
  * @author py
  */
-import java.awt.event.ActionEvent;
 import java.rmi.RemoteException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.application.Application;
-import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.Scene;
@@ -29,7 +25,6 @@ import rmi.RemoteHelper;
 public class Register extends Application{
     @Override
     public void start(Stage primaryStage){
-        boolean canRegister = false;
         GridPane pane = new GridPane();
         pane.setAlignment(Pos.CENTER);
         pane.setVgap(10);
@@ -66,9 +61,16 @@ public class Register extends Application{
             else {          
                 message.setText("Your password has been confirmed");                
                 message.setTextFill(Color.rgb(21, 117, 84));
-            }
-              canRegister = RemoteHelper.getInstance().getUserService().register(userNameStr,password);
-           
+                 try {
+                     if(RemoteHelper.getInstance().getUserService().register(userNameStr, password)){
+                         primaryStage.close();
+                         MainFrame mainFrame = new MainFrame();
+                         mainFrame.start(primaryStage);
+                     }
+                 } catch (RemoteException ex) {
+                     ex.printStackTrace();
+             }
+             } 
          });
          
          
@@ -76,10 +78,9 @@ public class Register extends Application{
         primaryStage.setScene(scene);
         primaryStage.show();
     }
-    public static void main(String[] args){
-        Application.launch(args);
-    }
-    
+  public static void main(String[] args){
+      Application.launch(args);
+  }
     
     
 }

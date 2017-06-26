@@ -6,7 +6,7 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 
 import rmi.RemoteHelper;
-import service.IOService;
+import ui.Login;
 import ui.MainFrame;
 
 public class ClientRunner {
@@ -14,10 +14,11 @@ public class ClientRunner {
 	
 	public ClientRunner() {
 		linkToServer();
-		initGUI();
+		//initGUI();
 	}
 	
 	private void linkToServer() {
+            
 		try {
 			remoteHelper = RemoteHelper.getInstance();
 			remoteHelper.setRemote(Naming.lookup("rmi://127.0.0.1:8887/DataRemoteObject"));
@@ -35,17 +36,13 @@ public class ClientRunner {
 		MainFrame mainFrame = new MainFrame();
 	}
 	
-	public void test(){
-		try {
-			System.out.println(remoteHelper.getUserService().login("admin", "123456a"));
-			System.out.println(remoteHelper.getIOService().writeFile("2", "admin", "testFile"));
-		} catch (RemoteException e) {
-			e.printStackTrace();
-		}
-	}
 	
-	public static void main(String[] args){
+	
+	public static void main(String[] args) throws Exception{
 		ClientRunner cr = new ClientRunner();
-		//cr.test();
+                MainFrame.getInstance(args);
+               // MainFrame.getInstance(args);
+		
+                
 	}
 }

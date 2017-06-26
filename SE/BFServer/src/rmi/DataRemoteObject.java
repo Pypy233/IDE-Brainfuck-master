@@ -27,20 +27,21 @@ public class DataRemoteObject extends UnicastRemoteObject implements IOService,
 		userService = new UserServiceImpl();
                 executeService= new ExecuteServiceImpl();
 	}
+        @Override
         public String execute(String code,String param)throws RemoteException{
 		return executeService.execute(code, param);
 	}
 
 	@Override
-	public boolean writeFile(String file, String userId, String fileName) throws RemoteException{
+	public boolean writeFile(String file, String userId, String fileName,String time) throws RemoteException{
 		// TODO Auto-generated method stub
-		return iOService.writeFile(file, userId, fileName);
+		return iOService.writeFile(file, userId, fileName,time);
 	}
 
 	@Override
-	public String readFile(String userId, String fileName) throws RemoteException{
+	public String readFile(String userId, String fileName,String time) throws RemoteException{
 		// TODO Auto-generated method stub
-		return iOService.readFile(userId, fileName);
+		return iOService.readFile(userId, fileName,time);
 	}
 
 	@Override

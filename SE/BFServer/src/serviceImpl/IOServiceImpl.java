@@ -9,11 +9,10 @@ import java.io.FileReader;
 
 import service.IOService;
 
-public class IOServiceImpl implements IOService{
-	
+public  class IOServiceImpl implements IOService{
 	@Override
-	public boolean writeFile(String file, String userId, String fileName) {
-		File f = new File(userId + "_" + fileName);
+	public boolean writeFile(String file, String userId, String fileName,String time) {
+		File f = new File(userId + "_" + fileName+"_"+time);
 		try {
 			FileWriter fw = new FileWriter(f, false);
 			fw.write(file);
@@ -25,9 +24,8 @@ public class IOServiceImpl implements IOService{
 			return false;
 		}
 	}
-
-	@Override
-	public String readFile(String userId, String fileName) {
+        @Override
+	public String readFile(String userId, String fileName,String time) {
 		String result = "";
                 String line  = "";
                 File f = new File(userId + "_" + fileName);
@@ -105,4 +103,5 @@ public class IOServiceImpl implements IOService{
             }
             return result;
         }
+       
 }

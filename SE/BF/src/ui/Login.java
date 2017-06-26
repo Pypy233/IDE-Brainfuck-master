@@ -10,11 +10,7 @@ package ui;
  * @author py
  */
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.rmi.RemoteException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -33,10 +29,11 @@ import javafx.scene.text.Text;
 import rmi.RemoteHelper;
 
 public class Login extends Application{
-    private boolean canLogin = false;
+    private final boolean canLogin = false;
+     PasswordField pf = new PasswordField();
+       TextField userTextField = new TextField();  
     @Override
     public void start(Stage primaryStage){
-        boolean canLogin = true;
         GridPane pane = new GridPane();
         pane.setAlignment(Pos.CENTER);
         pane.setVgap(10);
@@ -50,12 +47,12 @@ public class Login extends Application{
       Label userName = new Label("User Name:");  
       pane.add(userName, 0, 1);  
   
-      TextField userTextField = new TextField();  
+   
       pane.add(userTextField, 1, 1);  
   
       Label pw = new Label("Password:");  
       pane.add(pw, 0, 2);  
-      PasswordField pf = new PasswordField();
+     
       pane.add(pf,1,2);
       Button btRegister = new Button("Register");
       
@@ -64,20 +61,30 @@ public class Login extends Application{
       
       String userNameStr = userTextField.getText();
       String password = pf.getText();
-     
+      
       btDone.setOnAction(e ->{
-            try {
-                RemoteHelper.getInstance().getUserService().login(userNameStr, password);
-            } catch (RemoteException ex) {
-                ex.printStackTrace();
-            }
-          
+          try{
+             if(RemoteHelper.getInstance().getUserService().login(userNameStr, password)){
+                 primaryStage.close();
+                 MainFrame mainFrame = new MainFrame();
+                 mainFrame.start(primaryStage);
+             }else{
+                 primaryStage.close();
+                 LoginFailure logFailure = new LoginFailure();
+                 logFailure.start(primaryStage);
+                 
+             }
+                
+              }catch(RemoteException ex){
+                  ex.printStackTrace();
+              }
           
       });
+      
       btRegister.setOnAction(e ->{
           primaryStage.close();
-          Register rg = new Register();
-          rg.start(primaryStage);
+          Register re = new Register();
+          re.start(primaryStage);
       });
       pane.add(btRegister,1,4);
       
@@ -90,5 +97,14 @@ public class Login extends Application{
     public static void main(String[] args){
         Application.launch(args);
     }
+   public String getUser(){
+     return userTextField.getText();       
+   }
+   public String getPassword(){
+       return pf.getText();
+   }
+   public void getInstance(String[] args){
+       Application.launch(args);
+   }
     
 }
